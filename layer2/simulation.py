@@ -1,3 +1,4 @@
+import argparse
 import ollama
 import re
 import time
@@ -6,16 +7,10 @@ import sardine as sardine_module
 import kelp as kelp_module
 import urchin as urchin_module
 import sealion as sealion_module
+import database_fetch
 
 # ── Environment state (CalCOFI California Current baseline) ──────────────────
-environment = {
-    "temperature": 16.2,      # celsius, optimal 12-16
-    "nutrients": 0.6,         # 0-1 normalized
-    "pH": 8.05,               # optimal 8.1-8.3
-    "salinity": 33.4,         # PSU, optimal 32-34
-    "fishing_pressure": 0.2,  # 0-1 normalized
-    "pollution_index": 0.3    # 0-1 normalized
-}
+environment = database_fetch.BASELINE_ENVIRONMENT.copy()
 
 # ── Agent states ─────────────────────────────────────────────────────────────
 phytoplankton = {
@@ -175,6 +170,26 @@ def update_agent(agent, behavior, deltas):
     return agent
 
 
+def apply_policy_to_environment(policy_text: str, env: dict):
+    """Apply a natural language policy to the environment state."""
+    if not policy_text:
+        return env, None
+
+    print(f"Applying policy: {policy_text}")
+    try:
+        result = database_fetch.parse_policy(policy_text, baseline=env)
+        env.update(result["environment"])
+        print(f"Policy parse confidence: {result['confidence']:.2%}")
+        print(f"Policy summary: {result['summary']}")
+        return env, result
+    except Exception as exc:
+        print(f"  [policy parse error] {exc}")
+        print("  Falling back to manual policy application.")
+        fallback_env = database_fetch.apply_policy_manually(policy_text, baseline=env)
+        env.update(fallback_env)
+        return env, None
+
+
 def tick_phytoplankton(agent, env):
     try:
         response = ollama.chat(
@@ -209,6 +224,14 @@ def tick_zooplankton(agent, env, phyto):
 
 # ── Main simulation loop ──────────────────────────────────────────────────────
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run the California Current ecosystem simulation.")
+    parser.add_argument("--policy", type=str, default="",
+                        help="Natural language policy to apply before running the simulation.")
+    args = parser.parse_args()
+
+    if args.policy:
+        apply_policy_to_environment(args.policy, environment)
+
     print("=" * 60)
     print("  FATHOM — California Current Ecosystem Simulation")
     print("=" * 60)
