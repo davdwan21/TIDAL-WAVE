@@ -35,7 +35,7 @@ The user is a policy maker. They type a natural-language policy (e.g., *"Ban com
 ## 2. Tech Stack (Locked — do not change)
 
 - **Language:** Python 3.10+
-- **LLM provider:** Google Gemini 2.0 Flash (via `google-genai` SDK) — **only provider**. No OpenAI, no Anthropic, no Orthogonal.
+- **LLM provider:** Google Gemini 2.5 Flash (via `google-genai` SDK) — **only provider**. No OpenAI, no Anthropic, no Orthogonal.
 - **Web grounding:** Gemini's built-in Google Search tool (`types.Tool(google_search=types.GoogleSearch())`)
 - **Web framework:** FastAPI with Uvicorn
 - **Data validation:** Pydantic v2
@@ -221,9 +221,9 @@ Layer1/
 **Goal:** Return a *valid* `PolicyInterpretation` with hardcoded mock data. No real LLM calls yet. This unblocks any frontend/integration work immediately.
 
 1. `llm.py` — create the Gemini client and expose:
-   - `chat_json(prompt: str, model: str = "gemini-2.0-flash", temperature: float = 0.3) -> dict`
-   - `chat_text(prompt: str, model: str = "gemini-2.0-flash", temperature: float = 0.3) -> str`
-   - `research_with_search(query: str, model: str = "gemini-2.0-flash") -> dict` — returns `{"text": str, "sources": List[dict]}` using Google Search grounding
+   - `chat_json(prompt: str, model: str = "gemini-2.5-flash", temperature: float = 0.3) -> dict`
+   - `chat_text(prompt: str, model: str = "gemini-2.5-flash", temperature: float = 0.3) -> str`
+   - `research_with_search(query: str, model: str = "gemini-2.5-flash") -> dict` — returns `{"text": str, "sources": List[dict]}` using Google Search grounding
 
 2. `pipeline.py` — sync function `interpret_policy(request: PolicyRequest) -> PolicyInterpretation` that returns a realistic mock:
    - One `ParameterDelta` (use a real valid target like `anchovy.mortality_rate`, operation `multiply`, value `0.6`)

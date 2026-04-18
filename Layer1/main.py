@@ -25,5 +25,5 @@ def health() -> dict[str, str]:
 
 
 @app.post("/interpret", response_model=PolicyInterpretation)
-def interpret(request: PolicyRequest) -> PolicyInterpretation:
-    return interpret_policy(request)
+async def interpret(request: PolicyRequest) -> PolicyInterpretation:
+    return await interpret_policy(request)

@@ -5,13 +5,14 @@ from __future__ import annotations
 import json
 import logging
 import os
+from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().with_name(".env"))
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +71,7 @@ def _grounding_sources(response: types.GenerateContentResponse) -> list[dict[str
 
 def chat_json(
     prompt: str,
-    model: str = "gemini-2.0-flash",
+    model: str = "gemini-2.5-flash",
     temperature: float = 0.3,
 ) -> dict[str, Any]:
     """Call Gemini with JSON MIME type; parse body as a dict. Retries once on JSON decode errors."""
@@ -107,7 +108,7 @@ def chat_json(
 
 def chat_text(
     prompt: str,
-    model: str = "gemini-2.0-flash",
+    model: str = "gemini-2.5-flash",
     temperature: float = 0.3,
 ) -> str:
     """Plain-text completion."""
@@ -123,7 +124,7 @@ def chat_text(
 
 def research_with_search(
     query: str,
-    model: str = "gemini-2.0-flash",
+    model: str = "gemini-2.5-flash",
 ) -> dict[str, Any]:
     """Grounded web research via Google Search tool. Returns model text plus raw source dicts."""
     client = _client()
