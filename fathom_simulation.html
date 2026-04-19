@@ -46,6 +46,14 @@
             text-shadow: 0 0 40px rgba(77, 208, 225, 0.3);
         }
         
+        .subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: #80deea;
+            opacity: 0.8;
+            letter-spacing: 0.1em;
+        }
+        
         .map-container {
             background: rgba(10, 24, 40, 0.6);
             border-radius: 1.5rem;
@@ -374,7 +382,6 @@
             margin-left: 0.25rem;
         }
         
-        /* Leaflet customizations */
         .leaflet-container {
             background: #1a3a52;
         }
@@ -455,6 +462,7 @@
     <div class="container">
         <header>
             <h1>TIDAL WAVE</h1>
+            <div class="subtitle">Ecologically Accurate California Current Simulation</div>
         </header>
         
         <div class="controls">
@@ -480,38 +488,38 @@
     "year": 1,
     "agents": {
       "phytoplankton": {
-        "population": 80,
-        "last_action": "bloom",
-        "health_trend": "improving"
+        "population": 60,
+        "last_action": "recede",
+        "health_trend": "stable"
       },
       "zooplankton": {
-        "population": 58,
-        "last_action": "swarm",
-        "health_trend": "improving"
+        "population": 48,
+        "last_action": "disperse",
+        "health_trend": "stable"
       },
       "anchovy": {
-        "population": 65,
-        "last_action": "feed_aggressively",
-        "health_trend": "improving"
+        "population": 44,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sardine": {
-        "population": 60,
-        "last_action": "feed_aggressively",
-        "health_trend": "improving"
+        "population": 40,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sea_lion": {
-        "population": 62,
-        "last_action": "hunt",
-        "health_trend": "improving"
+        "population": 43,
+        "last_action": "migrate",
+        "health_trend": "stable"
       },
       "kelp": {
-        "population": 75,
-        "last_action": "grow",
-        "health_trend": "improving"
+        "population": 56,
+        "last_action": "recede",
+        "health_trend": "stable"
       },
       "urchin": {
-        "population": 52,
-        "last_action": "graze_kelp",
+        "population": 39,
+        "last_action": "reproduce",
         "health_trend": "improving"
       }
     },
@@ -525,32 +533,32 @@
     },
     "behaviors": {
       "phytoplankton": {
-        "action": "bloom",
-        "reason": "No reason provided."
+        "action": "recede",
+        "reason": "Resource constraints slowing growth"
       },
       "zooplankton": {
-        "action": "swarm",
-        "reason": "I need to disperse my colony to escape the stressful high temperature and find a more favorable environment for our growth."
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
       },
       "anchovy": {
-        "action": "feed_aggressively",
-        "reason": "Food is moderate and temperature is elevated but still within safe levels, so I'll take advantage of the decent zooplankton trend to feed aggressively."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sardine": {
-        "action": "feed_aggressively",
-        "reason": "No reason provided."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sea_lion": {
-        "action": "hunt",
-        "reason": "No reason provided."
+        "action": "migrate",
+        "reason": "Following declining fish populations"
       },
       "kelp": {
-        "action": "grow",
-        "reason": "** I will hold my current density and structure because the urchin threat is moderate, but the temperature is optimal for growth, allowing me to maintain stability."
+        "action": "recede",
+        "reason": "Resource constraints slowing growth"
       },
       "urchin": {
-        "action": "graze_kelp",
-        "reason": "No reason provided."
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
       }
     }
   },
@@ -558,38 +566,38 @@
     "year": 2,
     "agents": {
       "phytoplankton": {
-        "population": 95,
-        "last_action": "bloom",
-        "health_trend": "improving"
+        "population": 57,
+        "last_action": "recede",
+        "health_trend": "stable"
       },
       "zooplankton": {
-        "population": 61,
-        "last_action": "swarm",
-        "health_trend": "improving"
+        "population": 42,
+        "last_action": "disperse",
+        "health_trend": "stable"
       },
       "anchovy": {
-        "population": 70,
-        "last_action": "school",
-        "health_trend": "improving"
+        "population": 38,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sardine": {
-        "population": 75,
-        "last_action": "feed_aggressively",
-        "health_trend": "improving"
+        "population": 35,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sea_lion": {
-        "population": 74,
-        "last_action": "hunt",
-        "health_trend": "improving"
+        "population": 37,
+        "last_action": "migrate",
+        "health_trend": "stable"
       },
       "kelp": {
-        "population": 63,
+        "population": 53,
         "last_action": "recede",
-        "health_trend": "declining"
+        "health_trend": "stable"
       },
       "urchin": {
-        "population": 72,
-        "last_action": "barren_expand",
+        "population": 37,
+        "last_action": "reproduce",
         "health_trend": "improving"
       }
     },
@@ -603,32 +611,32 @@
     },
     "behaviors": {
       "phytoplankton": {
-        "action": "bloom",
-        "reason": "No reason provided."
+        "action": "recede",
+        "reason": "Resource constraints slowing growth"
       },
       "zooplankton": {
-        "action": "swarm",
-        "reason": "I need to get out of this overheated water as quickly as possible."
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
       },
       "anchovy": {
-        "action": "school",
-        "reason": "No reason provided."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sardine": {
-        "action": "feed_aggressively",
-        "reason": "I can take advantage of the improving zooplankton trend and the optimal temperature to aggressively feed before anchovy recovers from their weakness."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sea_lion": {
-        "action": "hunt",
-        "reason": "No reason provided."
+        "action": "migrate",
+        "reason": "Following declining fish populations"
       },
       "kelp": {
         "action": "recede",
-        "reason": "No reason provided."
+        "reason": "Resource constraints slowing growth"
       },
       "urchin": {
-        "action": "barren_expand",
-        "reason": "I'm in a prime environment with abundant kelp and minimal fishing pressure, so it's time to expand aggressively and create more \"urchin barrens\"!"
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
       }
     }
   },
@@ -636,38 +644,38 @@
     "year": 3,
     "agents": {
       "phytoplankton": {
-        "population": 100,
-        "last_action": "bloom",
-        "health_trend": "improving"
+        "population": 55,
+        "last_action": "recede",
+        "health_trend": "stable"
       },
       "zooplankton": {
-        "population": 64,
-        "last_action": "swarm",
-        "health_trend": "improving"
+        "population": 37,
+        "last_action": "disperse",
+        "health_trend": "stable"
       },
       "anchovy": {
-        "population": 85,
-        "last_action": "feed_aggressively",
-        "health_trend": "improving"
+        "population": 33,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sardine": {
-        "population": 87,
-        "last_action": "spawn",
-        "health_trend": "improving"
+        "population": 31,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sea_lion": {
-        "population": 86,
-        "last_action": "hunt",
-        "health_trend": "improving"
+        "population": 31,
+        "last_action": "migrate",
+        "health_trend": "stable"
       },
       "kelp": {
-        "population": 38,
-        "last_action": "collapse",
-        "health_trend": "declining"
+        "population": 51,
+        "last_action": "recede",
+        "health_trend": "stable"
       },
       "urchin": {
-        "population": 84,
-        "last_action": "graze_kelp",
+        "population": 36,
+        "last_action": "reproduce",
         "health_trend": "improving"
       }
     },
@@ -681,32 +689,32 @@
     },
     "behaviors": {
       "phytoplankton": {
-        "action": "bloom",
-        "reason": "** I need to be cautious and conserve energy since the temperature is slightly elevated and our nutrient levels are moderate, so I'll choose to persist in my current state rather than risk another bloom or migration."
+        "action": "recede",
+        "reason": "Resource constraints slowing growth"
       },
       "zooplankton": {
-        "action": "swarm",
-        "reason": "I need to escape this extreme temperature, and swarming might help us find a cooler patch of water."
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
       },
       "anchovy": {
-        "action": "feed_aggressively",
-        "reason": "I'll take advantage of the improving zooplankton trend and moderate food availability to aggressively hunt for food."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sardine": {
-        "action": "spawn",
-        "reason": "No reason provided."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sea_lion": {
-        "action": "hunt",
-        "reason": "No reason provided."
+        "action": "migrate",
+        "reason": "Following declining fish populations"
       },
       "kelp": {
-        "action": "collapse",
-        "reason": "I must collapse to prevent the formation of urchin barrens and give myself a chance to recover when urchin pressure subsides."
+        "action": "recede",
+        "reason": "Resource constraints slowing growth"
       },
       "urchin": {
-        "action": "graze_kelp",
-        "reason": "No reason provided."
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
       }
     }
   },
@@ -714,38 +722,38 @@
     "year": 4,
     "agents": {
       "phytoplankton": {
-        "population": 100,
-        "last_action": "bloom",
-        "health_trend": "improving"
+        "population": 54,
+        "last_action": "persist",
+        "health_trend": "stable"
       },
       "zooplankton": {
-        "population": 67,
-        "last_action": "swarm",
-        "health_trend": "improving"
+        "population": 32,
+        "last_action": "disperse",
+        "health_trend": "stable"
       },
       "anchovy": {
-        "population": 100,
-        "last_action": "feed_aggressively",
-        "health_trend": "improving"
+        "population": 28,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sardine": {
-        "population": 92,
-        "last_action": "school",
-        "health_trend": "improving"
+        "population": 27,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sea_lion": {
-        "population": 100,
-        "last_action": "thrive",
-        "health_trend": "improving"
-      },
-      "kelp": {
-        "population": 13,
-        "last_action": "collapse",
+        "population": 26,
+        "last_action": "haul_out",
         "health_trend": "declining"
       },
+      "kelp": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
       "urchin": {
-        "population": 96,
-        "last_action": "graze_kelp",
+        "population": 34,
+        "last_action": "reproduce",
         "health_trend": "improving"
       }
     },
@@ -759,32 +767,32 @@
     },
     "behaviors": {
       "phytoplankton": {
-        "action": "bloom",
-        "reason": "I'll stick to my moderate nutrient conditions and avoid blooming because my population is already at 100% and I don't want to overextend myself."
+        "action": "persist",
+        "reason": "Maintaining steady state"
       },
       "zooplankton": {
-        "action": "swarm",
-        "reason": "No reason provided."
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
       },
       "anchovy": {
-        "action": "feed_aggressively",
-        "reason": "** I should continue to feed aggressively because the food is abundant and the temperature is only mildly stressful."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sardine": {
-        "action": "school",
-        "reason": "With abundant food and optimal temperatures, I'll take advantage of the current conditions to aggressively feed."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sea_lion": {
-        "action": "thrive",
-        "reason": "** \"The anchovy are at 100/100 and the sardine are still abundant, so it's a perfect time to take full advantage of this food bonanza and fuel up our colony!\""
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
       },
       "kelp": {
-        "action": "collapse",
-        "reason": "No reason provided."
+        "action": "persist",
+        "reason": "Maintaining steady state"
       },
       "urchin": {
-        "action": "graze_kelp",
-        "reason": "No reason provided."
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
       }
     }
   },
@@ -792,39 +800,39 @@
     "year": 5,
     "agents": {
       "phytoplankton": {
-        "population": 100,
-        "last_action": "bloom",
-        "health_trend": "improving"
+        "population": 53,
+        "last_action": "persist",
+        "health_trend": "stable"
       },
       "zooplankton": {
-        "population": 70,
-        "last_action": "swarm",
-        "health_trend": "improving"
+        "population": 28,
+        "last_action": "disperse",
+        "health_trend": "stable"
       },
       "anchovy": {
-        "population": 100,
-        "last_action": "feed_aggressively",
-        "health_trend": "improving"
+        "population": 23,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sardine": {
-        "population": 100,
-        "last_action": "feed_aggressively",
-        "health_trend": "improving"
+        "population": 23,
+        "last_action": "scatter",
+        "health_trend": "stable"
       },
       "sea_lion": {
-        "population": 100,
-        "last_action": "thrive",
-        "health_trend": "improving"
+        "population": 22,
+        "last_action": "haul_out",
+        "health_trend": "declining"
       },
       "kelp": {
-        "population": 0,
-        "last_action": "collapse",
-        "health_trend": "declining"
+        "population": 48,
+        "last_action": "persist",
+        "health_trend": "stable"
       },
       "urchin": {
-        "population": 78,
-        "last_action": "starve",
-        "health_trend": "declining"
+        "population": 32,
+        "last_action": "reproduce",
+        "health_trend": "improving"
       }
     },
     "environment": {
@@ -837,59 +845,1225 @@
     },
     "behaviors": {
       "phytoplankton": {
-        "action": "bloom",
-        "reason": "No reason provided."
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
+      },
+      "anchovy": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sardine": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sea_lion": {
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 6,
+    "agents": {
+      "phytoplankton": {
+        "population": 52,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 24,
+        "last_action": "disperse",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 19,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 20,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 18,
+        "last_action": "haul_out",
+        "health_trend": "declining"
+      },
+      "kelp": {
+        "population": 47,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 31,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
+      },
+      "anchovy": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sardine": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sea_lion": {
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 7,
+    "agents": {
+      "phytoplankton": {
+        "population": 52,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 21,
+        "last_action": "disperse",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 16,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 17,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 15,
+        "last_action": "haul_out",
+        "health_trend": "declining"
+      },
+      "kelp": {
+        "population": 47,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 29,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
+      },
+      "anchovy": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sardine": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sea_lion": {
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 8,
+    "agents": {
+      "phytoplankton": {
+        "population": 51,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 18,
+        "last_action": "disperse",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 13,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 14,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 12,
+        "last_action": "haul_out",
+        "health_trend": "declining"
+      },
+      "kelp": {
+        "population": 46,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 28,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
+      },
+      "anchovy": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sardine": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sea_lion": {
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 9,
+    "agents": {
+      "phytoplankton": {
+        "population": 51,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 16,
+        "last_action": "disperse",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 11,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 12,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 10,
+        "last_action": "haul_out",
+        "health_trend": "declining"
+      },
+      "kelp": {
+        "population": 45,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 26,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
+      },
+      "anchovy": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sardine": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sea_lion": {
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 10,
+    "agents": {
+      "phytoplankton": {
+        "population": 51,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 13,
+        "last_action": "disperse",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 8,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 9,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 7,
+        "last_action": "haul_out",
+        "health_trend": "declining"
+      },
+      "kelp": {
+        "population": 45,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 25,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "disperse",
+        "reason": "Environmental pressure reducing population"
+      },
+      "anchovy": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sardine": {
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
+      },
+      "sea_lion": {
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 11,
+    "agents": {
+      "phytoplankton": {
+        "population": 51,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 12,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 6,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 7,
+        "last_action": "scatter",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 5,
+        "last_action": "haul_out",
+        "health_trend": "declining"
+      },
+      "kelp": {
+        "population": 45,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 24,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
       },
       "zooplankton": {
         "action": "swarm",
-        "reason": "No reason provided."
+        "reason": "Maintaining population under current conditions"
       },
       "anchovy": {
-        "action": "feed_aggressively",
-        "reason": "No reason provided."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sardine": {
-        "action": "feed_aggressively",
-        "reason": "No reason provided."
+        "action": "scatter",
+        "reason": "Dispersing due to resource scarcity"
       },
       "sea_lion": {
-        "action": "thrive",
-        "reason": "\"I'm feeling great and the anchovy and sardine are plentiful, so I'll just keep enjoying this abundance and thrive!\""
+        "action": "haul_out",
+        "reason": "Conserving energy due to limited prey"
       },
       "kelp": {
-        "action": "collapse",
-        "reason": "No reason provided."
+        "action": "persist",
+        "reason": "Maintaining steady state"
       },
       "urchin": {
-        "action": "starve",
-        "reason": "No reason provided."
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 12,
+    "agents": {
+      "phytoplankton": {
+        "population": 51,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 10,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 5,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 5,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 4,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 44,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 22,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 13,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 9,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 3,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 4,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 2,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 44,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 21,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 14,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 7,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 2,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 3,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 2,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 44,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 20,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 15,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 6,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 1,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 2,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 1,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 44,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 19,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 16,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 5,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 1,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 1,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 1,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 44,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 18,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 17,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 5,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 1,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 1,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 0,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 43,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 17,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 18,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 4,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 0,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 1,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 0,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 43,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 16,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 19,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 3,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 0,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 0,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 0,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 43,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 15,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
+      }
+    }
+  },
+  {
+    "year": 20,
+    "agents": {
+      "phytoplankton": {
+        "population": 50,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "zooplankton": {
+        "population": 3,
+        "last_action": "swarm",
+        "health_trend": "stable"
+      },
+      "anchovy": {
+        "population": 0,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sardine": {
+        "population": 0,
+        "last_action": "school",
+        "health_trend": "stable"
+      },
+      "sea_lion": {
+        "population": 0,
+        "last_action": "compete",
+        "health_trend": "stable"
+      },
+      "kelp": {
+        "population": 43,
+        "last_action": "persist",
+        "health_trend": "stable"
+      },
+      "urchin": {
+        "population": 14,
+        "last_action": "reproduce",
+        "health_trend": "improving"
+      }
+    },
+    "environment": {
+      "temperature": 16.2,
+      "nutrients": 0.6,
+      "pH": 8.05,
+      "salinity": 33.4,
+      "fishing_pressure": 0,
+      "pollution_index": 0.3
+    },
+    "behaviors": {
+      "phytoplankton": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "zooplankton": {
+        "action": "swarm",
+        "reason": "Maintaining population under current conditions"
+      },
+      "anchovy": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sardine": {
+        "action": "school",
+        "reason": "Maintaining cohesion under moderate conditions"
+      },
+      "sea_lion": {
+        "action": "compete",
+        "reason": "Moderate prey availability, competing for food"
+      },
+      "kelp": {
+        "action": "persist",
+        "reason": "Maintaining steady state"
+      },
+      "urchin": {
+        "action": "reproduce",
+        "reason": "Maintaining population under current conditions"
       }
     }
   }
 ];
         let currentYearIndex = 0;
         
-        // Initialize the California Current map
         function initRegionMap() {
             const map = L.map('regionMap').setView([35.5, -121.5], 6);
             
-            // Use ocean-themed tiles
             L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
                 attribution: 'Tiles &copy; Esri',
                 maxZoom: 13,
                 minZoom: 5
             }).addTo(map);
             
-            // Define the California Current region polygon
             const californiaCurrentZone = [
-                [41.0, -125.0],  // Northern California
+                [41.0, -125.0],
                 [41.0, -121.0],
-                [32.5, -117.0],  // Southern California/Baja
+                [32.5, -117.0],
                 [32.5, -122.0],
                 [41.0, -125.0]
             ];
             
-            // Add the California Current zone
             L.polygon(californiaCurrentZone, {
                 color: '#4dd0e1',
                 fillColor: '#4dd0e1',
@@ -898,7 +2072,6 @@
                 dashArray: '5, 10'
             }).addTo(map).bindPopup('<h3>California Current System</h3><p>Cold-water upwelling zone supporting rich marine biodiversity</p>');
             
-            // Add key location markers
             const locations = [
                 {
                     name: 'Monterey Bay',
@@ -931,23 +2104,6 @@
                     opacity: 1,
                     fillOpacity: 0.8
                 }).addTo(map).bindPopup(`<h3>${loc.name}</h3><p>${loc.description}</p>`);
-            });
-            
-            // Add current flow arrows (simplified)
-            const currentArrows = [
-                [[40.0, -124.5], [38.0, -123.5]],
-                [[38.0, -123.5], [36.0, -122.0]],
-                [[36.0, -122.0], [34.0, -120.5]],
-                [[34.0, -120.5], [33.0, -118.5]]
-            ];
-            
-            currentArrows.forEach(arrow => {
-                L.polyline(arrow, {
-                    color: '#26c6da',
-                    weight: 3,
-                    opacity: 0.6,
-                    dashArray: '10, 5'
-                }).addTo(map).bindPopup('<h3>California Current Flow</h3><p>Southward cold-water flow along the coast</p>');
             });
         }
         
@@ -1022,7 +2178,7 @@
                                 
                                 <div class="species-card">
                                     <div class="species-header">
-                                        <span class="species-icon">🦁</span>
+                                        <span class="species-icon">🦭</span>
                                         <span class="species-name">Sea Lion</span>
                                     </div>
                                     <div class="population-value">${agents.sea_lion.population}<span style="font-size: 1rem; color: #b0bec5;">/100</span></div>
@@ -1053,7 +2209,7 @@
                                 
                                 <div class="species-card">
                                     <div class="species-header">
-                                        <span class="species-icon">🦀</span>
+                                        <span class="species-icon">🦔</span>
                                         <span class="species-name">Urchin</span>
                                     </div>
                                     <div class="population-value">${agents.urchin.population}<span style="font-size: 1rem; color: #b0bec5;">/100</span></div>
@@ -1098,11 +2254,9 @@
             document.getElementById('mapContainer').innerHTML = html;
             document.getElementById('yearDisplay').textContent = `YEAR ${data.year}`;
             
-            // Update navigation buttons
             document.getElementById('prevBtn').disabled = index === 0;
             document.getElementById('nextBtn').disabled = index === simulationData.length - 1;
             
-            // Update dots
             updateDots();
         }
         
@@ -1132,13 +2286,11 @@
             });
         }
         
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') changeYear(-1);
             if (e.key === 'ArrowRight') changeYear(1);
         });
         
-        // Initialize everything
         initRegionMap();
         renderYear(0);
     </script>
