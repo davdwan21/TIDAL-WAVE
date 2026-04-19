@@ -1,2 +1,4 @@
 groq
 boto3
+fastapi
+uvicorn[standard]

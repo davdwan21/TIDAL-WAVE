@@ -336,6 +336,41 @@ def upload_tick_to_s3(tick_num: int, env: dict, agents: dict, policy: str, bucke
     print(f"Uploaded year {tick_num} to s3://{bucket}/{key}")
 
 
+def run_simulation_timeline(env: dict, agents: dict, ticks: int = 10, policy: str = "") -> list:
+    """Run simulation and return a list of per-tick snapshots (year 0 through year N)."""
+    env = clamp_environment(env.copy())
+    agents = copy.deepcopy(agents)
+
+    timeline = [{
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "ticks": 0,
+        "policy": policy,
+        "environment": copy.deepcopy(env),
+        "agents": copy.deepcopy(agents),
+    }]
+
+    for tick_num in range(1, ticks + 1):
+        agents["phytoplankton"], _, _ = tick_phytoplankton(agents["phytoplankton"], env)
+        agents["zooplankton"], _, _ = tick_zooplankton(agents["zooplankton"], env, agents["phytoplankton"])
+        agents["anchovy"], _, _ = anchovy_module.tick(agents["anchovy"], env, agents["zooplankton"])
+        agents["sardine"], _, _ = sardine_module.tick(agents["sardine"], env, agents["zooplankton"], agents["anchovy"])
+        agents["sea_lion"], _, _ = sealion_module.tick(agents["sea_lion"], env, agents["anchovy"], agents["sardine"])
+        agents["urchin"], _, _ = urchin_module.tick(agents["urchin"], env, agents["kelp"])
+        agents["kelp"], _, _ = kelp_module.tick(agents["kelp"], env, agents["urchin"])
+
+        env = apply_cross_species_feedback(env, agents)
+
+        timeline.append({
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            "ticks": tick_num,
+            "policy": policy,
+            "environment": copy.deepcopy(env),
+            "agents": copy.deepcopy(agents),
+        })
+
+    return timeline
+
+
 def run_simulation(env: dict, agents: dict, ticks: int = 5, verbose: bool = False,
                    output_bucket: str | None = None, output_prefix: str = "simulation-output",
                    policy: str = ""):

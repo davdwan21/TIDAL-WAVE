@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SpiralAnimation } from "@/components/ui/spiral-animation";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
@@ -143,33 +143,6 @@ function buildTimeline(target: SimTick, baseline: SimTick): SimTick[] {
   return out;
 }
 
-// Counterfactual: ecosystem WITHOUT policy (extrapolate baseline trends)
-function buildCounterfactual(baseline: SimTick, years: number): SimTick[] {
-  const out: SimTick[] = [baseline];
-  // Worsening trajectory
-  const target: Record<SpeciesKey, number> = {
-    phytoplankton: 50, zooplankton: 22, anchovy: 12, sardine: 14,
-    sea_lion: 30, kelp: 5, urchin: 95,
-  };
-  for (let i = 1; i <= years; i++) {
-    const t = i / years;
-    const agents = {} as Record<SpeciesKey, AgentState>;
-    for (const k of SPECIES_ORDER) {
-      const b = baseline.agents[k].population;
-      const a = target[k];
-      const pop = Math.max(0, Math.min(100, Math.round(b + (a - b) * t)));
-      agents[k] = { population: pop, last_action: "no_policy", health_trend: pop < b ? "declining" : "stable" };
-    }
-    out.push({
-      timestamp_utc: new Date().toISOString(),
-      ticks: i,
-      policy: "no policy",
-      environment: { ...baseline.environment },
-      agents,
-    });
-  }
-  return out;
-}
 
 // ---------------- Map dot generation ----------------
 // Static map: dots are positioned in SVG viewBox coordinates (0..1000, 0..1000).
@@ -236,7 +209,6 @@ function generateDots(species: SpeciesKey, count: number, seed: number): Dot[] {
 }
 
 // ---------------- Helpers ----------------
-const trendColor = (t: Trend) => t === "improving" ? "var(--healthy)" : t === "stable" ? "var(--warning)" : "var(--danger)";
 const trendHex = (t: Trend) => t === "improving" ? "#00ff9d" : t === "stable" ? "#ffb347" : "#ff4757";
 
 function generateNarrative(tick: SimTick): string {
@@ -321,7 +293,7 @@ function CoastMap({
   showBarrenFlash: boolean;
 }) {
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: "#050d1a" }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: "#000" }}>
       <svg
         viewBox="0 0 1000 1000"
         preserveAspectRatio="xMidYMid meet"
@@ -330,22 +302,22 @@ function CoastMap({
         {/* Ocean background */}
         <defs>
           <radialGradient id="ocean-grad" cx="30%" cy="40%" r="80%">
-            <stop offset="0%" stopColor="#0a1f3d" />
-            <stop offset="100%" stopColor="#050d1a" />
+            <stop offset="0%" stopColor="#030d1f" />
+            <stop offset="100%" stopColor="#000" />
           </radialGradient>
           <linearGradient id="land-grad" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#0f2040" />
-            <stop offset="100%" stopColor="#0a1628" />
+            <stop offset="0%" stopColor="#080f1c" />
+            <stop offset="100%" stopColor="#040810" />
           </linearGradient>
         </defs>
 
         <rect x="0" y="0" width="1000" height="1000" fill="url(#ocean-grad)" />
 
         {/* California landmass */}
-        <path d={CALIFORNIA_LAND_PATH} fill="url(#land-grad)" stroke="#1a3050" strokeWidth="2" />
+        <path d={CALIFORNIA_LAND_PATH} fill="url(#land-grad)" stroke="#0f1e30" strokeWidth="2" />
 
         {/* Coastline highlight */}
-        <path d={CALIFORNIA_COAST_PATH} fill="none" stroke="#00cfff" strokeWidth="1.5" opacity="0.4" />
+        <path d={CALIFORNIA_COAST_PATH} fill="none" stroke="#00cfff" strokeWidth="1.5" opacity="0.2" />
 
         {/* "CALIFORNIA" label on land */}
         <text
@@ -411,7 +383,7 @@ function HealthBar({ value, trend, compareValue }: { value: number; trend: Trend
   const color = trendHex(trend);
   return (
     <div className="w-full">
-      <div className="h-2 rounded-full bg-[#0f2040] overflow-hidden relative">
+      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden relative">
         <div
           className="h-full rounded-full"
           style={{
@@ -438,11 +410,11 @@ function HealthBar({ value, trend, compareValue }: { value: number; trend: Trend
 
 function EnvReadout({ label, value, unit, color = "#00cfff" }: { label: string; value: string; unit?: string; color?: string }) {
   return (
-    <div className="rounded-md bg-[#050d1a] border border-[#0f2040] p-2.5">
-      <div className="text-[10px] tracking-widest text-[#6b8fa8] font-bold" style={{ fontFamily: "var(--font-mono)" }}>{label}</div>
+    <div className="rounded-sm bg-white/5 p-2.5">
+      <div className="text-[10px] tracking-widest text-white/30 font-bold" style={{ fontFamily: "var(--font-mono)" }}>{label}</div>
       <div className="flex items-baseline gap-1 mt-1">
         <span className="text-2xl font-bold leading-none" style={{ fontFamily: "var(--font-mono)", color }}>{value}</span>
-        {unit && <span className="text-[10px] text-[#6b8fa8]" style={{ fontFamily: "var(--font-mono)" }}>{unit}</span>}
+        {unit && <span className="text-[10px] text-white/30" style={{ fontFamily: "var(--font-mono)" }}>{unit}</span>}
       </div>
     </div>
   );
@@ -572,17 +544,17 @@ function LoadingScreen({ years }: { years: number }) {
       {/* Centered text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center px-6">
         <div
-          className="text-3xl md:text-5xl mb-3 font-bold text-white"
+          className="text-5xl md:text-7xl mb-3 font-bold text-white"
           style={{ fontFamily: "var(--font-display)", letterSpacing: "0.05em" }}
         >
           SIMULATING {years} YEARS
         </div>
-        <div className="text-xs md:text-sm text-white/40 uppercase tracking-[0.3em] mb-4" style={{ fontFamily: "var(--font-mono)" }}>
+        <div className="text-sm md:text-base text-white/40 uppercase tracking-[0.3em] mb-4" style={{ fontFamily: "var(--font-mono)" }}>
           California Current
         </div>
         <div
           key={phaseIdx}
-          className="text-base md:text-lg text-white/60 animate-fade-in"
+          className="text-xl md:text-2xl text-white/60 animate-fade-in"
           style={{ fontFamily: "var(--font-narrative)", fontStyle: "italic", minHeight: "1.5em" }}
         >
           {phases[phaseIdx]}
@@ -667,12 +639,12 @@ function ParamDiff({ before, after, onDismiss }: { before: EnvState; after: EnvS
 function Simulation({
   policy,
   timeline,
-  counterfactual,
+  policyEnv,
   onBack,
 }: {
   policy: string;
   timeline: SimTick[];
-  counterfactual: SimTick[];
+  policyEnv: EnvState | null;
   onBack: () => void;
 }) {
   const [yearIdx, setYearIdx] = useState(0);
@@ -705,7 +677,6 @@ function Simulation({
   }, [timeline.length]);
 
   const tick = timeline[yearIdx];
-  const cfTick = counterfactual[yearIdx];
   const narrative = generateNarrative(tick);
   const barren = isUrchinBarren(tick);
   const collapse = isAnchovyCollapse(tick);
@@ -726,41 +697,37 @@ function Simulation({
   }));
 
   return (
-    <div key="sim" className="min-h-screen w-full animate-fade-in-slow" style={{ background: "#050d1a", color: "#e8f4f8" }}>
-      <div className="flex items-center justify-between px-6 py-3 border-b border-[#0f2040]">
-        <div className="flex items-center gap-4">
+    <div key="sim" className="min-h-screen w-full animate-fade-in-slow bg-black text-white">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-white/5">
+        <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="text-xs text-[#6b8fa8] hover:text-[#00cfff] transition"
+            className="text-sm text-white/30 hover:text-white/70 transition"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            ← NEW SIMULATION
+            ←
           </button>
-          <h1 className="text-2xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>TIDAL WAVE</h1>
-          <span className="text-xs text-[#6b8fa8]" style={{ fontFamily: "var(--font-mono)" }}>
-            POLICY // <span className="text-[#00cfff]">{policy.toUpperCase()}</span>
+          <span className="text-sm text-white/50 font-light italic" style={{ fontFamily: "var(--font-narrative)" }}>
+            {policy}
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="hidden md:inline text-[10px] text-[#6b8fa8]" style={{ fontFamily: "var(--font-mono)" }}>
-            ← → SCRUB · SPACE PLAY · R RESTART
-          </span>
           <button
             onClick={() => { setYearIdx(0); setAutoplay(true); setShowDiff(true); }}
-            className="text-[10px] px-2 py-1 rounded border border-[#0f2040] text-[#6b8fa8] hover:border-[#00cfff] hover:text-[#00cfff] transition"
+            className="text-[10px] text-white/25 hover:text-white/60 transition"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            ↻ RESTART
+            ↻
           </button>
-          <div className="text-xs text-[#6b8fa8]" style={{ fontFamily: "var(--font-mono)" }}>
-            YEAR <span className="text-[#00ff9d] font-bold">{tick.ticks}</span> / {timeline[timeline.length - 1].ticks}
+          <div className="text-xs text-white/40" style={{ fontFamily: "var(--font-mono)" }}>
+            YEAR <span className="text-white font-bold">{tick.ticks}</span> / {timeline[timeline.length - 1].ticks}
           </div>
         </div>
       </div>
 
       <div className="flex flex-col lg:flex-row" style={{ height: "calc(100vh - 49px)" }}>
         {/* LEFT: Map 60% */}
-        <div className="lg:w-[60%] w-full h-[50vh] lg:h-full relative border-r border-[#0f2040]">
+        <div className="lg:w-[60%] w-full h-[50vh] lg:h-full relative border-r border-white/5">
           <CoastMap
             tick={tick}
             onSpeciesClick={(s) => setSelected(s)}
@@ -769,8 +736,8 @@ function Simulation({
           {showDiff && (
             <div className="absolute bottom-4 left-4 w-72 max-w-[calc(100%-2rem)] animate-fade-in z-10">
               <ParamDiff
-                before={BASELINE_TICK.environment}
-                after={SAMPLE_TICK.environment}
+                before={timeline[0].environment}
+                after={policyEnv ?? timeline[timeline.length - 1].environment}
                 onDismiss={() => setShowDiff(false)}
               />
             </div>
@@ -787,15 +754,15 @@ function Simulation({
         </div>
 
         {/* RIGHT: 40% panel */}
-        <div className="lg:w-[40%] w-full overflow-y-auto p-5 space-y-4">
-          {/* 1. Narrative ship's log */}
-          <div className="rounded-lg bg-[#0a1628] border border-[#0f2040] p-5">
-            <div className="text-[10px] tracking-[0.2em] font-bold text-[#6b8fa8] mb-3" style={{ fontFamily: "var(--font-mono)" }}>
-              YEAR {tick.ticks} // POST [{policy.toUpperCase()}]
+        <div className="lg:w-[40%] w-full overflow-y-auto divide-y divide-white/5">
+          {/* 1. Narrative */}
+          <div className="px-5 py-4">
+            <div className="text-[10px] tracking-[0.2em] font-bold text-white/30 mb-3" style={{ fontFamily: "var(--font-mono)" }}>
+              YEAR {tick.ticks}
             </div>
             <p
-              className="text-lg leading-relaxed text-[#e8f4f8]"
-              style={{ fontFamily: "var(--font-narrative)", fontStyle: "italic", fontWeight: 600, letterSpacing: "0.01em" }}
+              className="text-lg leading-relaxed text-white/80"
+              style={{ fontFamily: "var(--font-narrative)", fontStyle: "italic", fontWeight: 400, letterSpacing: "0.01em" }}
             >
               {narrative}
             </p>
@@ -807,7 +774,7 @@ function Simulation({
                 <div className="text-[10px] tracking-widest font-bold mb-1" style={{ color: "#ff4757", fontFamily: "var(--font-mono)" }}>
                   THRESHOLD EVENT
                 </div>
-                <div className="text-xs text-[#e8f4f8]" style={{ fontFamily: "var(--font-mono)" }}>
+                <div className="text-xs text-white/60" style={{ fontFamily: "var(--font-mono)" }}>
                   {barren && "URCHIN BARREN: kelp forest collapse imminent. "}
                   {collapse && "ANCHOVY COLLAPSE: forage fish stock critical."}
                 </div>
@@ -816,90 +783,79 @@ function Simulation({
           </div>
 
           {/* Legend */}
-          <div className="rounded-lg bg-[#0a1628] border border-[#0f2040] p-3">
-            <div className="text-[10px] tracking-[0.2em] font-bold text-[#6b8fa8] mb-2" style={{ fontFamily: "var(--font-mono)" }}>
-              MAP LEGEND
+          <div className="px-5 py-4">
+            <div className="text-[10px] tracking-[0.2em] font-bold text-white/30 mb-2" style={{ fontFamily: "var(--font-mono)" }}>
+              LEGEND
             </div>
             <SpeciesLegend compact />
           </div>
 
-          {/* 2. Species snapshot — 3 cols, larger text */}
-          <div className="grid grid-cols-3 gap-2">
-            {SPECIES_ORDER.map((sp) => {
-              const a = tick.agents[sp];
-              const cf = cfTick?.agents[sp];
-              const meta = SPECIES_META[sp];
-              const isSelected = selected === sp;
-              return (
-                <button
-                  key={sp}
-                  onClick={() => setSelected(isSelected ? null : sp)}
-                  className={`rounded-md p-3 text-left border transition-all ${isSelected ? "border-[#00cfff] bg-[#0f2040]" : "border-[#0f2040] bg-[#0a1628] hover:border-[#1a3050]"}`}
-                >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="inline-block rounded-full"
-                      style={{ width: 8, height: 8, background: meta.color }}
-                    />
-                  </div>
-                  <div className="text-xs font-bold tracking-wide text-[#e8f4f8] mt-2 uppercase" style={{ fontFamily: "var(--font-mono)" }}>
-                    {meta.name}
-                  </div>
-                  <div className="mt-2">
-                    <HealthBar
-                      value={a.population}
-                      trend={a.health_trend}
-                    />
-                  </div>
-                  <div className="text-2xl font-bold mt-1.5 leading-none" style={{ fontFamily: "var(--font-display)", color: trendHex(a.health_trend) }}>
-                    {a.population}
-                  </div>
-                  <div className="text-[10px] text-[#6b8fa8] mt-1 truncate" style={{ fontFamily: "var(--font-mono)" }}>
-                    {a.last_action}
-                  </div>
-                </button>
-              );
-            })}
+          {/* Species snapshot — horizontally scrollable, 3 visible at a time */}
+          <div className="px-5 py-4">
+            <div className="text-[10px] tracking-[0.2em] font-bold text-white/30 mb-3" style={{ fontFamily: "var(--font-mono)" }}>
+              SPECIES
+            </div>
+            <div className="flex gap-2 overflow-x-auto scroll-smooth pb-1" style={{ scrollbarWidth: "none" }}>
+              {SPECIES_ORDER.map((sp) => {
+                const a = tick.agents[sp];
+                const meta = SPECIES_META[sp];
+                const isSelected = selected === sp;
+                return (
+                  <button
+                    key={sp}
+                    onClick={() => setSelected(isSelected ? null : sp)}
+                    className={`rounded-sm p-3 text-left border transition-all shrink-0 ${isSelected ? "border-white/30 bg-white/5" : "border-white/10 bg-transparent hover:border-white/20"}`}
+                    style={{ width: "calc(33.333% - 6px)" }}
+                  >
+                    <span className="inline-block rounded-full" style={{ width: 8, height: 8, background: meta.color }} />
+                    <div className="text-xs font-bold tracking-wide text-white/80 mt-2 uppercase" style={{ fontFamily: "var(--font-mono)" }}>
+                      {meta.name}
+                    </div>
+                    <div className="mt-2">
+                      <HealthBar value={a.population} trend={a.health_trend} />
+                    </div>
+                    <div className="text-2xl font-bold mt-1.5 leading-none" style={{ fontFamily: "var(--font-display)", color: trendHex(a.health_trend) }}>
+                      {a.population}
+                    </div>
+                    <div className="text-[10px] text-white/30 mt-1 truncate" style={{ fontFamily: "var(--font-mono)" }}>
+                      {a.last_action}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Population history chart for selected */}
           {selected && (
-            <div className="rounded-lg bg-[#0a1628] border border-[#0f2040] p-4 animate-fade-in">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-[10px] tracking-widest font-bold text-[#6b8fa8]" style={{ fontFamily: "var(--font-mono)" }}>
-                  {SPECIES_META[selected].name.toUpperCase()} // POPULATION HISTORY
+            <div className="px-5 py-4 animate-fade-in">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-[10px] tracking-widest font-bold text-white/30" style={{ fontFamily: "var(--font-mono)" }}>
+                  {SPECIES_META[selected].name.toUpperCase()}
                 </div>
-                <button onClick={() => setSelected(null)} className="text-[10px] text-[#6b8fa8] hover:text-[#00cfff]">✕</button>
+                <button onClick={() => setSelected(null)} className="text-[10px] text-white/30 hover:text-white/60">✕</button>
               </div>
               <div style={{ width: "100%", height: 160 }}>
                 <ResponsiveContainer>
                   <LineChart data={historyData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid stroke="#0f2040" strokeDasharray="3 3" />
-                    <XAxis dataKey="year" stroke="#6b8fa8" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono" }} />
-                    <YAxis stroke="#6b8fa8" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono" }} domain={[0, 100]} />
+                    <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+                    <XAxis dataKey="year" stroke="rgba(255,255,255,0.2)" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono", fill: "rgba(255,255,255,0.3)" }} />
+                    <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono", fill: "rgba(255,255,255,0.3)" }} domain={[0, 100]} />
                     <Tooltip
-                      contentStyle={{ background: "#0a1628", border: "1px solid #0f2040", fontFamily: "IBM Plex Mono", fontSize: 11 }}
-                      labelStyle={{ color: "#e8f4f8" }}
+                      contentStyle={{ background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.1)", fontFamily: "IBM Plex Mono", fontSize: 11 }}
+                      labelStyle={{ color: "rgba(255,255,255,0.6)" }}
                     />
-                    <Line
-                      type="monotone"
-                      dataKey={selected}
-                      stroke={SPECIES_META[selected].color}
-                      strokeWidth={2}
-                      dot={{ fill: SPECIES_META[selected].color, r: 3 }}
-                      connectNulls={false}
-                      isAnimationActive={false}
-                    />
+                    <Line type="monotone" dataKey={selected} stroke={SPECIES_META[selected].color} strokeWidth={2} dot={{ fill: SPECIES_META[selected].color, r: 3 }} connectNulls={false} isAnimationActive={false} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
           )}
 
-          {/* 3. Environmental conditions — all 6 numeric readouts */}
-          <div className="rounded-lg bg-[#0a1628] border border-[#0f2040] p-4">
-            <div className="text-[10px] tracking-widest font-bold text-[#6b8fa8] mb-3" style={{ fontFamily: "var(--font-mono)" }}>
-              ENVIRONMENT // CALIFORNIA CURRENT
+          {/* Environmental conditions */}
+          <div className="px-5 py-4">
+            <div className="text-[10px] tracking-widest font-bold text-white/30 mb-3" style={{ fontFamily: "var(--font-mono)" }}>
+              ENV
             </div>
             <div className="grid grid-cols-3 gap-2">
               <EnvReadout label="TEMP" value={tick.environment.temperature.toFixed(2)} unit="°C" color="#00cfff" />
@@ -911,27 +867,27 @@ function Simulation({
             </div>
           </div>
 
-          {/* 3b. Parameter changes over time chart (bottom-right) */}
-          <div className="rounded-lg bg-[#0a1628] border border-[#0f2040] p-4">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-[10px] tracking-widest font-bold text-[#6b8fa8]" style={{ fontFamily: "var(--font-mono)" }}>
-                PARAMETER CHANGES // OVER TIME
+          {/* Parameter changes over time */}
+          <div className="px-5 py-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-[10px] tracking-widest font-bold text-white/30" style={{ fontFamily: "var(--font-mono)" }}>
+                PARAMETERS
               </div>
               <div className="flex gap-3 text-[9px]" style={{ fontFamily: "var(--font-mono)" }}>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#ff4757" }} /><span className="text-[#e8f4f8]">FISHING</span></span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#ffb347" }} /><span className="text-[#e8f4f8]">POLLUTION</span></span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#00ff9d" }} /><span className="text-[#e8f4f8]">NUTRIENTS</span></span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#ff4757" }} /><span className="text-white/40">FISHING</span></span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#ffb347" }} /><span className="text-white/40">POLLUTION</span></span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#00ff9d" }} /><span className="text-white/40">NUTRIENTS</span></span>
               </div>
             </div>
             <div style={{ width: "100%", height: 150 }}>
               <ResponsiveContainer>
                 <LineChart data={envHistoryData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid stroke="#0f2040" strokeDasharray="3 3" />
-                  <XAxis dataKey="year" stroke="#6b8fa8" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono" }} />
-                  <YAxis stroke="#6b8fa8" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono" }} domain={[0, 100]} />
+                  <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+                  <XAxis dataKey="year" stroke="rgba(255,255,255,0.2)" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono", fill: "rgba(255,255,255,0.3)" }} />
+                  <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fontSize: 10, fontFamily: "IBM Plex Mono", fill: "rgba(255,255,255,0.3)" }} domain={[0, 100]} />
                   <Tooltip
-                    contentStyle={{ background: "#0a1628", border: "1px solid #0f2040", fontFamily: "IBM Plex Mono", fontSize: 11 }}
-                    labelStyle={{ color: "#e8f4f8" }}
+                    contentStyle={{ background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.1)", fontFamily: "IBM Plex Mono", fontSize: 11 }}
+                    labelStyle={{ color: "rgba(255,255,255,0.6)" }}
                   />
                   <Line type="monotone" dataKey="fishing" stroke="#ff4757" strokeWidth={2} dot={{ r: 2 }} connectNulls={false} isAnimationActive={false} />
                   <Line type="monotone" dataKey="pollution" stroke="#ffb347" strokeWidth={2} dot={{ r: 2 }} connectNulls={false} isAnimationActive={false} />
@@ -941,13 +897,13 @@ function Simulation({
             </div>
           </div>
 
-          {/* 4. Year navigation */}
-          <div className="rounded-lg bg-[#0a1628] border border-[#0f2040] p-4">
-            <div className="flex items-center gap-3 mb-3">
+          {/* Year navigation */}
+          <div className="px-5 py-4">
+            <div className="flex items-center gap-3 mb-2">
               <button
                 onClick={() => setYearIdx((i) => Math.max(0, i - 1))}
                 disabled={yearIdx === 0}
-                className="px-3 py-1.5 rounded border border-[#0f2040] text-xs hover:border-[#00cfff] disabled:opacity-30 shrink-0"
+                className="text-xs text-white/40 hover:text-white/70 disabled:opacity-20 shrink-0"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 ◀
@@ -959,33 +915,29 @@ function Simulation({
                 step={1}
                 value={yearIdx}
                 onChange={(e) => { setYearIdx(Number(e.target.value)); setAutoplay(false); }}
-                className="flex-1 h-1 rounded-full appearance-none cursor-pointer"
+                className="flex-1 h-px rounded-full appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #00cfff ${(yearIdx / (timeline.length - 1)) * 100}%, #0f2040 ${(yearIdx / (timeline.length - 1)) * 100}%)`,
-                  accentColor: "#00ff9d",
+                  background: `linear-gradient(to right, rgba(255,255,255,0.6) ${(yearIdx / (timeline.length - 1)) * 100}%, rgba(255,255,255,0.1) ${(yearIdx / (timeline.length - 1)) * 100}%)`,
+                  accentColor: "white",
                 }}
               />
               <button
                 onClick={() => setYearIdx((i) => Math.min(timeline.length - 1, i + 1))}
                 disabled={yearIdx === timeline.length - 1}
-                className="px-3 py-1.5 rounded border border-[#0f2040] text-xs hover:border-[#00cfff] disabled:opacity-30 shrink-0"
+                className="text-xs text-white/40 hover:text-white/70 disabled:opacity-20 shrink-0"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 ▶
               </button>
               <button
                 onClick={() => setAutoplay((a) => !a)}
-                className="px-3 py-1.5 rounded text-xs font-bold shrink-0"
-                style={{
-                  background: autoplay ? "#ff4757" : "linear-gradient(135deg, #00ff9d, #00cfff)",
-                  color: "#050d1a",
-                  fontFamily: "var(--font-mono)",
-                }}
+                className="text-xs text-white/40 hover:text-white/70 shrink-0 transition"
+                style={{ fontFamily: "var(--font-mono)" }}
               >
                 {autoplay ? "■ STOP" : "▶ PLAY"}
               </button>
             </div>
-            <div className="text-center mt-2 text-[10px] text-[#6b8fa8] tracking-widest" style={{ fontFamily: "var(--font-mono)" }}>
+            <div className="text-center text-[10px] text-white/25 tracking-widest" style={{ fontFamily: "var(--font-mono)" }}>
               YEAR {tick.ticks} OF {timeline[timeline.length - 1].ticks}
             </div>
           </div>
@@ -998,33 +950,44 @@ function Simulation({
 // ---------------- Root component ----------------
 type Screen = "landing" | "loading" | "sim";
 
+const API_URL = "http://localhost:8000";
+const SIM_TICKS = 10;
+
 export default function Fathom() {
   const [screen, setScreen] = useState<Screen>("landing");
   const [policy, setPolicy] = useState("");
   const [timeline, setTimeline] = useState<SimTick[]>([]);
-  const [counterfactual, setCounterfactual] = useState<SimTick[]>([]);
+  const [policyEnv, setPolicyEnv] = useState<EnvState | null>(null);
 
-  const handleSimulate = (p: string) => {
+  const handleSimulate = async (p: string) => {
     setPolicy(p);
     setScreen("loading");
-    // Simulate fetch delay
-    setTimeout(() => {
+    try {
+      const resp = await fetch(`${API_URL}/simulate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ policy: p, ticks: SIM_TICKS }),
+      });
+      if (!resp.ok) throw new Error(`API error ${resp.status}`);
+      const data = await resp.json();
+      setTimeline(data.timeline as SimTick[]);
+      setPolicyEnv(data.policy_environment as EnvState);
+    } catch {
+      // Fallback to interpolated sample data when API is unavailable
       const target = { ...SAMPLE_TICK, policy: p };
-      const tl = buildTimeline(target, BASELINE_TICK);
-      const cf = buildCounterfactual(BASELINE_TICK, target.ticks);
-      setTimeline(tl);
-      setCounterfactual(cf);
-      setScreen("sim");
-    }, 2200);
+      setTimeline(buildTimeline(target, BASELINE_TICK));
+      setPolicyEnv(SAMPLE_TICK.environment);
+    }
+    setScreen("sim");
   };
 
   if (screen === "landing") return <Landing onSimulate={handleSimulate} />;
-  if (screen === "loading") return <LoadingScreen years={SAMPLE_TICK.ticks} />;
+  if (screen === "loading") return <LoadingScreen years={SIM_TICKS} />;
   return (
     <Simulation
       policy={policy}
       timeline={timeline}
-      counterfactual={counterfactual}
+      policyEnv={policyEnv}
       onBack={() => setScreen("landing")}
     />
   );
