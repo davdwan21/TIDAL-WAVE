@@ -6,7 +6,7 @@ import csv
 from pathlib import Path
 from typing import Any
 
-from agents.parser import ParsedIntent
+from agents.parser import TRAWLING_DATASET_MATCH, ParsedIntent
 from schema import Source
 
 _DATA_DIR = Path(__file__).resolve().parents[1] / "data"
@@ -21,15 +21,16 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
-def _normalize(s: str) -> str:
-    return s.strip().lower().replace("_", " ")
+def _normalize_species_key(s: str) -> str:
+    return s.strip().lower().replace(" ", "_")
 
 
-def _is_relevant(species_name: str, affected_species: list[str]) -> bool:
-    if not affected_species:
-        return True
-    candidate = _normalize(species_name)
-    return any(token in candidate or candidate in token for token in (_normalize(v) for v in affected_species))
+def _row_matches_mapped(row_species: str, mapped_species: list[str]) -> bool:
+    if not mapped_species:
+        return False
+    key = _normalize_species_key(row_species)
+    mapped_set = {_normalize_species_key(m) for m in mapped_species}
+    return key in mapped_set
 
 
 async def dataset_agent(parsed: ParsedIntent) -> dict[str, Any]:
@@ -48,11 +49,21 @@ async def dataset_agent(parsed: ParsedIntent) -> dict[str, Any]:
     calcofi_rows = _read_csv(_CALCOFI_FILE)
     inat_rows = _read_csv(_INAT_FILE)
 
-    relevant_calcofi = [row for row in calcofi_rows if _is_relevant(row.get("species", ""), parsed.affected_species)]
-    relevant_inat = [row for row in inat_rows if _is_relevant(row.get("species", ""), parsed.affected_species)]
+    join_keys = list(parsed.dataset_match_species)
+    calcofi_species_keys = {_normalize_species_key(row.get("species", "")) for row in calcofi_rows}
+    inat_species_keys = {_normalize_species_key(row.get("species", "")) for row in inat_rows}
+    mapped_for_calcofi = [m for m in join_keys if _normalize_species_key(m) in calcofi_species_keys]
+    mapped_for_inat = [m for m in join_keys if _normalize_species_key(m) in inat_species_keys]
 
-    baseline_values = relevant_calcofi[:3]
-    trend_indicators = relevant_inat[:3]
+    relevant_calcofi = [
+        row for row in calcofi_rows if _row_matches_mapped(row.get("species", ""), mapped_for_calcofi)
+    ]
+    relevant_inat = [
+        row for row in inat_rows if _row_matches_mapped(row.get("species", ""), mapped_for_inat)
+    ]
+
+    baseline_values = list(relevant_calcofi)
+    trend_indicators = list(relevant_inat)
 
     findings: list[str] = []
     for row in baseline_values:
@@ -66,7 +77,7 @@ async def dataset_agent(parsed: ParsedIntent) -> dict[str, Any]:
 
     if not findings:
         findings = [
-            "No local dataset rows matched parsed species; using empty baseline/trend placeholders."
+            "No local dataset rows matched dataset_match_species; check parser join keys and CSV species column."
         ]
 
     sources = [
@@ -92,6 +103,22 @@ async def dataset_agent(parsed: ParsedIntent) -> dict[str, Any]:
                 "reason": "Runoff-focused policies are usually linked to lower nutrient loading trends.",
             }
         )
+    mapped_full = list(parsed.mapped_species)
+    trawling_dataset = tuple(parsed.dataset_match_species) == TRAWLING_DATASET_MATCH
+    if (
+        "fishing_fleet" in mapped_full
+        or "trawl" in parsed.target_activity
+        or "fish" in parsed.target_activity
+        or trawling_dataset
+    ):
+        suggested_parameters.append(
+            {
+                "target": "fishing_fleet.effort_level",
+                "operation": "multiply",
+                "value": 0.85,
+                "reason": "Trawling or fleet-focused policies typically imply lower realized fishing effort in the near term.",
+            }
+        )
 
     return {
         "findings": findings,
@@ -100,6 +127,8 @@ async def dataset_agent(parsed: ParsedIntent) -> dict[str, Any]:
         "trend_indicators": trend_indicators,
         "suggested_parameters": suggested_parameters,
         "reasoning_trace": [
-            f"📊 Dataset agent matched {len(baseline_values)} CalCOFI rows and {len(trend_indicators)} iNaturalist rows."
+            f"📊 Dataset agent matched {len(relevant_calcofi)} CalCOFI rows and {len(relevant_inat)} iNaturalist rows "
+            f"(dataset_match_species={join_keys}; mapped_species={mapped_full}; "
+            f"CalCOFI keys={mapped_for_calcofi}; iNat keys={mapped_for_inat})."
         ],
     }

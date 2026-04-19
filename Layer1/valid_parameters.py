@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
+
 # Dot-notation keys the ecosystem sim accepts. Do not invent names elsewhere.
 VALID_TARGETS: set[str] = {
     # Species population dynamics — rates are typically 0–2+ as multipliers vs baseline;
@@ -41,3 +43,9 @@ VALID_OPERATIONS: set[str] = {"multiply", "add", "set"}
 def validate_delta(target: str, operation: str) -> bool:
     """Return True if *target* and *operation* are allowed for a ParameterDelta."""
     return target in VALID_TARGETS and operation in VALID_OPERATIONS
+
+
+@lru_cache(maxsize=1)
+def valid_targets_prompt_block() -> str:
+    """Stable newline-separated VALID_TARGETS for LLM prompts (lru_cache per project convention)."""
+    return "\n".join(sorted(VALID_TARGETS))

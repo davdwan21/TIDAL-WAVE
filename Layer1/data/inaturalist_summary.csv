@@ -1,4 +1,6 @@
 species,recent_observations,trend,region
-california sea lion,186,increasing,socal
-brown pelican,142,stable,socal
-market squid,97,declining,socal
+anchovy,2140,stable,socal
+sardine,980,declining,socal
+market_squid,412,increasing,socal
+leopard_shark,88,stable,socal
+coastal_community,1200,stable,socal

@@ -46,7 +46,9 @@ async def literature_agent(parsed: ParsedIntent) -> dict[str, Any]:
             ],
             "sources": [],
             "suggested_parameters": [],
-            "reasoning_trace": ["📚 Literature agent unavailable (API quota/error); no external sources returned."],
+            "reasoning_trace": [
+                "📚 Literature agent hit a Gemini API error, returned 0 grounded sources, 0 findings, and 0 parameter hints."
+            ],
         }
 
     text = (result.get("text") or "").strip()
@@ -80,11 +82,16 @@ async def literature_agent(parsed: ParsedIntent) -> dict[str, Any]:
             }
         )
 
+    avg_len = (sum(len(f) for f in findings) / max(len(findings), 1)) if findings else 0.0
     return {
         "findings": findings,
         "sources": sources,
         "suggested_parameters": suggestions,
         "reasoning_trace": [
-            f"📚 Literature agent found {len(sources)} grounded sources and {len(findings)} key findings."
+            (
+                f"📚 Literature agent retrieved {len(sources)} grounded sources, extracted {len(findings)} headline findings "
+                f"(avg {avg_len:.1f} characters per finding), and proposed {len(suggestions)} parameter hint(s) from "
+                f"{len(text)} characters of grounded text."
+            )
         ],
     }

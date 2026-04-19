@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from pipeline import interpret_policy
 from schema import PolicyInterpretation, PolicyRequest
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s %(name)s %(message)s",
+)
 
 app = FastAPI(title="Layer 1 Policy Interpreter", version="0.1.0")
 

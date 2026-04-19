@@ -2,3 +2,6 @@ species,metric,value,trend,region
 anchovy,larval_abundance_index,42.7,stable,socal
 sardine,larval_abundance_index,31.4,declining,socal
 zooplankton,biomass_mg_m3,118.2,increasing,socal
+phytoplankton,chl_a_mg_m3,2.41,increasing,socal
+pelican,prey_field_proxy_index,0.58,stable,socal
+sea_lion,population_index_proxy,1.05,increasing,socal

@@ -83,6 +83,9 @@ async def historical_agent(parsed: ParsedIntent) -> dict[str, Any]:
         "sources": sources,
         "suggested_parameters": suggestions,
         "reasoning_trace": [
-            f"🏛️ Historical agent found {len(sources)} precedent sources and {len(findings)} outcome notes."
+            (
+                f"🏛️ Historical agent retrieved {len(sources)} precedent sources, distilled {len(findings)} outcome notes, "
+                f"and emitted {len(suggestions)} parameter hint(s) from {len(text)} characters of grounded narrative."
+            )
         ],
     }
