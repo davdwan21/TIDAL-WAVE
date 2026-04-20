@@ -1,4 +1,4 @@
-# FATHOM — California Current Ecosystem Simulator
+# Tidal Wave — California Current Ecosystem Simulator
 
 A Python-based ecosystem simulation project for the Southern California coastal environment.
 The simulator combines a policy parser, a rule-based ecosystem engine, and agent-style species behavior to model how environmental actions affect the California Current system.
